@@ -7,7 +7,10 @@ function App() {
   return (
     <div className="container">
       <div className="app-title-container">
-        <div className="app-title">Hi there</div>
+        <div className="app-title">Progress</div>
+        <div className="app-sub-title">
+          A recreation of <a href="https://neal.fun/progress/">neal.fun</a>
+        </div>
       </div>
       <div className="progress-bars">
         <ProgressBar />

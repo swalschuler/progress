@@ -17,12 +17,20 @@ body {
 
 .app-title-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100px;
-  font-weight: bold;
-  font-size: 30px;
+  padding: 10px;
   background-color: white;
   margin-bottom: 10px;
   margin-top: 30px;
+}
+
+.app-title {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.app-sub-title {
+  font-size: 20px;
 }
