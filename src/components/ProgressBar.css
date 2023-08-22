@@ -15,10 +15,6 @@
   transition-delay: 0;
 }
 
-.progress-inner:hover {
-  width: 100px;
-}
-
 .progress-item {
   margin-bottom: 35px;
   font-size: 30px;
