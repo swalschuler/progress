@@ -1,0 +1,44 @@
+.progress-outer {
+  height: 50px;
+  border-radius: 5px;
+  background-color: #f1f2f6;
+}
+
+.progress-inner {
+  height: 100%;
+  width: 10px;
+  border-radius: 5px 0 0 5px;
+  background-color: #2ecc71;
+
+  transition-property: width;
+  transition-duration: 0.5s;
+  transition-delay: 0;
+}
+
+.progress-inner:hover {
+  width: 100px;
+}
+
+.progress-item {
+  margin-bottom: 35px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.progress-title {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.progress-title-left {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+}
+.progress-title-right {
+  display: flex;
+  flex: 1;
+  justify-content: right;
+  font-size: 20px;
+  align-items: flex-end;
+}
