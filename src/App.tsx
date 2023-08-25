@@ -9,6 +9,8 @@ import {
   getDaysUntilNextThanksgiving,
   getDaysUntilNextDate,
   getDaysUntilNextEaster,
+  getDaysUntilNextMothersDay,
+  getDaysUntilNextFathersDay,
 } from "./utilities/dateUtils";
 
 function App() {
@@ -81,7 +83,7 @@ function App() {
           }
           getTimeLeft={(time: Date) => getDaysUntilNextThanksgiving()}
           singularSuffix={"day"}
-        />{" "}
+        />
         <ProgressBar
           title={"❤️ Next Valentine's Day"}
           time={time}
@@ -107,6 +109,42 @@ function App() {
             (getDaysUntilNextEaster() / getNumDaysInCurrentYear()) * 100
           }
           getTimeLeft={(time: Date) => getDaysUntilNextEaster()}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"👩 Next Mother's Day"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextMothersDay() / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextMothersDay()}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"👨 Next Father's Day"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextFathersDay() / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextFathersDay()}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"🎃 Next Halloween"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextDate(10, 31) / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextDate(10, 31)}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"🎄 Next Christmas"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextDate(12, 25) / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextDate(12, 25)}
           singularSuffix={"day"}
         />
       </div>

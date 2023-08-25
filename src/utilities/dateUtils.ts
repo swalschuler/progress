@@ -57,6 +57,10 @@ const getMothersDayDate = (year: number) => {
   return getDateOfNthDayOfMonth(year, 5, 0, 2);
 };
 
+const getFathersDayDate = (year: number) => {
+  return getDateOfNthDayOfMonth(year, 6, 0, 3);
+};
+
 // https://www.geeksforgeeks.org/how-to-calculate-the-easter-date-for-a-given-year-using-gauss-algorithm/#
 const getEasterDate = (Y: number) => {
   let A, B, C, P, Q, M, N, D, E;
@@ -130,6 +134,10 @@ export const getDaysUntilNextEaster = () => {
 
 export const getDaysUntilNextMothersDay = () => {
   return getDaysUntilNthDayOfMonth(getMothersDayDate);
+};
+
+export const getDaysUntilNextFathersDay = () => {
+  return getDaysUntilNthDayOfMonth(getFathersDayDate);
 };
 
 export const getDaysUntilNextDate = (
