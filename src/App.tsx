@@ -8,6 +8,7 @@ import {
   getNumDaysInCurrentYear,
   getDaysUntilNextThanksgiving,
   getDaysUntilNextDate,
+  getDaysUntilNextEaster,
 } from "./utilities/dateUtils";
 
 function App() {
@@ -82,12 +83,30 @@ function App() {
           singularSuffix={"day"}
         />{" "}
         <ProgressBar
-          title={"❤️ Next Valentine's day"}
+          title={"❤️ Next Valentine's Day"}
           time={time}
           getPercentage={(time: Date) =>
             (getDaysUntilNextDate(2, 14) / getNumDaysInCurrentYear()) * 100
           }
           getTimeLeft={(time: Date) => getDaysUntilNextDate(2, 14)}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"🍀 Next Saint Patrick's Day"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextDate(3, 17) / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextDate(3, 17)}
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"🐰 Next Easter"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextEaster() / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextEaster()}
           singularSuffix={"day"}
         />
       </div>

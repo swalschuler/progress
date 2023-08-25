@@ -84,3 +84,65 @@ export const getDaysUntilNextDate = (
     (currentYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
   );
 };
+
+// https://www.geeksforgeeks.org/how-to-calculate-the-easter-date-for-a-given-year-using-gauss-algorithm/#
+const getEasterDate = (Y: number) => {
+  let A, B, C, P, Q, M, N, D, E;
+
+  // All calculations done
+  // on the basis of
+  // Gauss Easter Algorithm
+  A = Y % 19;
+  B = Y % 4;
+  C = Y % 7;
+  P = Math.floor(Y / 100.0);
+
+  Q = Math.floor((13 + 8 * P) / 25.0);
+  M = Math.floor(15 - Q + P - Math.floor(P / 4)) % 30;
+  N = Math.floor(4 + P - Math.floor(P / 4)) % 7;
+  D = Math.floor(19 * A + M) % 30;
+  E = Math.floor(2 * B + 4 * C + 6 * D + N) % 7;
+
+  let days = Math.floor(22 + D + E);
+
+  // A corner case,
+  // when D is 29
+  if (D == 29 && E == 6) {
+    return new Date(Y, 3, 19).valueOf();
+  }
+  // Another corner case,
+  // when D is 28
+  else if (D == 28 && E == 6) {
+    return new Date(Y, 3, 18).valueOf();
+  } else {
+    // If days > 31, move to April
+    // April = 4th Month
+    if (days > 31) {
+      return new Date(Y, 3, days - 31).valueOf();
+    } else {
+      // Otherwise, stay on March
+      // March = 3rd Month
+      return new Date(Y, 2, days).valueOf();
+    }
+  }
+};
+
+export const getDaysUntilNextEaster = () => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  const currentYearEaster = getEasterDate(currentYear);
+  const nextYearEaster = getEasterDate(currentYear + 1);
+
+  if (now.valueOf() - currentYearEaster.valueOf() > 0) {
+    // If we are past the current year's Easter, the next holiday must be next year
+    return Math.floor(
+      (nextYearEaster.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+    );
+  }
+
+  // The next Easter is this year
+  return Math.floor(
+    (currentYearEaster.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+  );
+};
