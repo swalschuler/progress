@@ -31,3 +31,33 @@ export const daysInYearToDate = () => {
 
   return daysElapsed + 1; // Adding 1 because the current day is inclusive
 };
+
+export const getDaysUntilNextThanksgiving = () => {
+  const getThanksgivingDate = (year: number) => {
+    // Find the first Thursday in November and add 3 weeks to it
+    let thanksgivingDate = new Date(year, 10, 1);
+    while (thanksgivingDate.getDay() !== 4) {
+      thanksgivingDate.setDate(thanksgivingDate.getDate() + 1);
+    }
+    thanksgivingDate.setDate(thanksgivingDate.getDate() + 21);
+    return thanksgivingDate;
+  };
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  const currentYearThanksgiving = getThanksgivingDate(currentYear);
+  const nextYearThanksgiving = getThanksgivingDate(currentYear + 1);
+
+  if (now.valueOf() - currentYearThanksgiving.valueOf() > 0) {
+    // If we are past the current year's Thanksgiving, the next holiday must be next year
+    return Math.floor(
+      (nextYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+    );
+  }
+
+  // The next Thanksgiving is this year
+  return Math.floor(
+    (currentYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+  );
+};
