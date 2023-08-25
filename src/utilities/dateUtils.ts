@@ -32,14 +32,29 @@ export const daysInYearToDate = () => {
   return daysElapsed + 1; // Adding 1 because the current day is inclusive
 };
 
-const getThanksgivingDate = (year: number) => {
+// month is 1 indexed, 0 = Sunday
+// getDateOfNthDayOfMonth(2023, 11, 4, 4) is the fourth Monday of November
+const getDateOfNthDayOfMonth = (
+  year: number,
+  month: number,
+  day: number,
+  nth: number
+) => {
   // Find the first Thursday in November and add 3 weeks to it
-  let thanksgivingDate = new Date(year, 10, 1);
-  while (thanksgivingDate.getDay() !== 4) {
-    thanksgivingDate.setDate(thanksgivingDate.getDate() + 1);
+  let date = new Date(year, month - 1, 1);
+  while (date.getDay() !== day) {
+    date.setDate(date.getDate() + 1);
   }
-  thanksgivingDate.setDate(thanksgivingDate.getDate() + 21);
-  return thanksgivingDate;
+  date.setDate(date.getDate() + 7 * (nth - 1));
+  return date;
+};
+
+const getThanksgivingDate = (year: number) => {
+  return getDateOfNthDayOfMonth(year, 11, 4, 4);
+};
+
+const getMothersDayDate = (year: number) => {
+  return getDateOfNthDayOfMonth(year, 5, 0, 2);
 };
 
 // https://www.geeksforgeeks.org/how-to-calculate-the-easter-date-for-a-given-year-using-gauss-algorithm/#
@@ -111,6 +126,10 @@ export const getDaysUntilNextThanksgiving = () => {
 
 export const getDaysUntilNextEaster = () => {
   return getDaysUntilNthDayOfMonth(getEasterDate);
+};
+
+export const getDaysUntilNextMothersDay = () => {
+  return getDaysUntilNthDayOfMonth(getMothersDayDate);
 };
 
 export const getDaysUntilNextDate = (
