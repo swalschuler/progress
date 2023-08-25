@@ -7,6 +7,7 @@ import {
   daysInYearToDate,
   getNumDaysInCurrentYear,
   getDaysUntilNextThanksgiving,
+  getDaysUntilNextDate,
 } from "./utilities/dateUtils";
 
 function App() {
@@ -78,6 +79,15 @@ function App() {
             (getDaysUntilNextThanksgiving() / getNumDaysInCurrentYear()) * 100
           }
           getTimeLeft={(time: Date) => getDaysUntilNextThanksgiving()}
+          singularSuffix={"day"}
+        />{" "}
+        <ProgressBar
+          title={"❤️ Next Valentine's day"}
+          time={time}
+          getPercentage={(time: Date) =>
+            (getDaysUntilNextDate(2, 14) / getNumDaysInCurrentYear()) * 100
+          }
+          getTimeLeft={(time: Date) => getDaysUntilNextDate(2, 14)}
           singularSuffix={"day"}
         />
       </div>

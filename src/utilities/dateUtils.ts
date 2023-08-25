@@ -61,3 +61,26 @@ export const getDaysUntilNextThanksgiving = () => {
     (currentYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
   );
 };
+
+export const getDaysUntilNextDate = (
+  month: number /* Month is 1 indexed */,
+  day: number
+) => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  const currentYearDate = new Date(currentYear, month - 1, day);
+  const nextYearDate = new Date(currentYear + 1, month - 1, day);
+
+  if (now.valueOf() - currentYearDate.valueOf() > 0) {
+    // If we are past the current year's Thanksgiving, the next holiday must be next year
+    return Math.floor(
+      (nextYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+    );
+  }
+
+  // The next Thanksgiving is this year
+  return Math.floor(
+    (currentYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+  );
+};
