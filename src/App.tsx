@@ -15,9 +15,17 @@ import {
 
 function App() {
   const [time, setTime] = useState(new Date());
+  const [scrollHeight, setScrollHeight] = useState(0);
+  const [windowHeight, setWindowHeight] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 10);
+
+    setWindowHeight(window.screen.height);
+
+    // TODO: Throttle scroll updates
+    // https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event
+    window.addEventListener("scroll", () => setScrollHeight(window.scrollY));
     return () => {
       clearInterval(interval);
     };
@@ -59,6 +67,15 @@ function App() {
           getPercentage={(time: Date) =>
             (time.getDate() / getNumDaysInCurrentMonth()) * 100
           }
+          getTimeLeft={(time: Date) =>
+            getNumDaysInCurrentMonth() - time.getDate()
+          }
+          singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"💻 End of this page"}
+          time={time}
+          getPercentage={(time: Date) => (scrollHeight / windowHeight) * 100}
           getTimeLeft={(time: Date) =>
             getNumDaysInCurrentMonth() - time.getDate()
           }
