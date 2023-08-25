@@ -32,57 +32,14 @@ export const daysInYearToDate = () => {
   return daysElapsed + 1; // Adding 1 because the current day is inclusive
 };
 
-export const getDaysUntilNextThanksgiving = () => {
-  const getThanksgivingDate = (year: number) => {
-    // Find the first Thursday in November and add 3 weeks to it
-    let thanksgivingDate = new Date(year, 10, 1);
-    while (thanksgivingDate.getDay() !== 4) {
-      thanksgivingDate.setDate(thanksgivingDate.getDate() + 1);
-    }
-    thanksgivingDate.setDate(thanksgivingDate.getDate() + 21);
-    return thanksgivingDate;
-  };
-
-  const now = new Date();
-  const currentYear = now.getFullYear();
-
-  const currentYearThanksgiving = getThanksgivingDate(currentYear);
-  const nextYearThanksgiving = getThanksgivingDate(currentYear + 1);
-
-  if (now.valueOf() - currentYearThanksgiving.valueOf() > 0) {
-    // If we are past the current year's Thanksgiving, the next holiday must be next year
-    return Math.floor(
-      (nextYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
-    );
+const getThanksgivingDate = (year: number) => {
+  // Find the first Thursday in November and add 3 weeks to it
+  let thanksgivingDate = new Date(year, 10, 1);
+  while (thanksgivingDate.getDay() !== 4) {
+    thanksgivingDate.setDate(thanksgivingDate.getDate() + 1);
   }
-
-  // The next Thanksgiving is this year
-  return Math.floor(
-    (currentYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
-  );
-};
-
-export const getDaysUntilNextDate = (
-  month: number /* Month is 1 indexed */,
-  day: number
-) => {
-  const now = new Date();
-  const currentYear = now.getFullYear();
-
-  const currentYearDate = new Date(currentYear, month - 1, day);
-  const nextYearDate = new Date(currentYear + 1, month - 1, day);
-
-  if (now.valueOf() - currentYearDate.valueOf() > 0) {
-    // If we are past the current year's Thanksgiving, the next holiday must be next year
-    return Math.floor(
-      (nextYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
-    );
-  }
-
-  // The next Thanksgiving is this year
-  return Math.floor(
-    (currentYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
-  );
+  thanksgivingDate.setDate(thanksgivingDate.getDate() + 21);
+  return thanksgivingDate;
 };
 
 // https://www.geeksforgeeks.org/how-to-calculate-the-easter-date-for-a-given-year-using-gauss-algorithm/#
@@ -108,41 +65,73 @@ const getEasterDate = (Y: number) => {
   // A corner case,
   // when D is 29
   if (D == 29 && E == 6) {
-    return new Date(Y, 3, 19).valueOf();
+    return new Date(Y, 3, 19);
   }
   // Another corner case,
   // when D is 28
   else if (D == 28 && E == 6) {
-    return new Date(Y, 3, 18).valueOf();
+    return new Date(Y, 3, 18);
   } else {
     // If days > 31, move to April
     // April = 4th Month
     if (days > 31) {
-      return new Date(Y, 3, days - 31).valueOf();
+      return new Date(Y, 3, days - 31);
     } else {
       // Otherwise, stay on March
       // March = 3rd Month
-      return new Date(Y, 2, days).valueOf();
+      return new Date(Y, 2, days);
     }
   }
 };
 
-export const getDaysUntilNextEaster = () => {
+// fn should return the date of the next occurrence of the holiday
+const getDaysUntilNthDayOfMonth = (fn: (year: number) => Date) => {
   const now = new Date();
   const currentYear = now.getFullYear();
 
-  const currentYearEaster = getEasterDate(currentYear);
-  const nextYearEaster = getEasterDate(currentYear + 1);
+  const currentYearThanksgiving = fn(currentYear);
+  const nextYearThanksgiving = fn(currentYear + 1);
 
-  if (now.valueOf() - currentYearEaster.valueOf() > 0) {
-    // If we are past the current year's Easter, the next holiday must be next year
+  if (now.valueOf() - currentYearThanksgiving.valueOf() > 0) {
+    // If we are past the current year's Thanksgiving, the next holiday must be next year
     return Math.floor(
-      (nextYearEaster.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+      (nextYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
     );
   }
 
-  // The next Easter is this year
+  // The next Thanksgiving is this year
   return Math.floor(
-    (currentYearEaster.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+    (currentYearThanksgiving.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+  );
+};
+
+export const getDaysUntilNextThanksgiving = () => {
+  return getDaysUntilNthDayOfMonth(getThanksgivingDate);
+};
+
+export const getDaysUntilNextEaster = () => {
+  return getDaysUntilNthDayOfMonth(getEasterDate);
+};
+
+export const getDaysUntilNextDate = (
+  month: number /* Month is 1 indexed */,
+  day: number
+) => {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  const currentYearDate = new Date(currentYear, month - 1, day);
+  const nextYearDate = new Date(currentYear + 1, month - 1, day);
+
+  if (now.valueOf() - currentYearDate.valueOf() > 0) {
+    // If we are past the current year's Thanksgiving, the next holiday must be next year
+    return Math.floor(
+      (nextYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
+    );
+  }
+
+  // The next Thanksgiving is this year
+  return Math.floor(
+    (currentYearDate.valueOf() - now.valueOf()) / 1000 / 60 / 60 / 24
   );
 };
