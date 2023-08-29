@@ -41,7 +41,8 @@ function App() {
       <div className="app-title-container">
         <div className="app-title">Progress</div>
         <div className="app-sub-title">
-          A recreation of <a href="https://neal.fun/progress/">neal.fun</a>
+          A recreation of{" "}
+          <a href="https://neal.fun/progress/">neal.fun/progress</a>
         </div>
       </div>
       <div className="progress-bars">
@@ -96,6 +97,15 @@ function App() {
           }
           getTimeLeft={(time: Date) => getDaysUntilNextThanksgiving()}
           singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"💻 End of this page"}
+          time={time}
+          getPercentage={(time: Date) => (scrollHeight / windowHeight) * 100}
+          getTimeLeft={(time: Date) => Math.round(windowHeight - scrollHeight)}
+          singularSuffix={"px to go"}
+          allSingular
+          noDelay
         />
         <ProgressBar
           title={"❤️ Next Valentine's Day"}
@@ -159,15 +169,6 @@ function App() {
           }
           getTimeLeft={(time: Date) => getDaysUntilNextDate(12, 25)}
           singularSuffix={"day"}
-        />
-        <ProgressBar
-          title={"💻 End of this page"}
-          time={time}
-          getPercentage={(time: Date) => (scrollHeight / windowHeight) * 100}
-          getTimeLeft={(time: Date) => Math.round(windowHeight - scrollHeight)}
-          singularSuffix={"px to go"}
-          allSingular
-          noDelay
         />
       </div>
     </div>
