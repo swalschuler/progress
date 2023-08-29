@@ -12,6 +12,7 @@ import {
   getDaysUntilNextMothersDay,
   getDaysUntilNextFathersDay,
 } from "./utilities/dateUtils";
+import { getPageHeight, getPixelsScrolled } from "./utilities/heightUtils";
 
 function App() {
   const [time, setTime] = useState(new Date());
@@ -21,11 +22,15 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => setTime(new Date()), 10);
 
-    setWindowHeight(window.screen.height);
+    // TODO: Update on window resize
+    setWindowHeight(getPageHeight());
 
     // TODO: Throttle scroll updates
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/scroll_event
-    window.addEventListener("scroll", () => setScrollHeight(window.scrollY));
+    window.addEventListener("scroll", () =>
+      setScrollHeight(getPixelsScrolled())
+    );
+    window.addEventListener("resize", () => setWindowHeight(getPageHeight()));
     return () => {
       clearInterval(interval);
     };
@@ -67,15 +72,6 @@ function App() {
           getPercentage={(time: Date) =>
             (time.getDate() / getNumDaysInCurrentMonth()) * 100
           }
-          getTimeLeft={(time: Date) =>
-            getNumDaysInCurrentMonth() - time.getDate()
-          }
-          singularSuffix={"day"}
-        />
-        <ProgressBar
-          title={"💻 End of this page"}
-          time={time}
-          getPercentage={(time: Date) => (scrollHeight / windowHeight) * 100}
           getTimeLeft={(time: Date) =>
             getNumDaysInCurrentMonth() - time.getDate()
           }
@@ -163,6 +159,15 @@ function App() {
           }
           getTimeLeft={(time: Date) => getDaysUntilNextDate(12, 25)}
           singularSuffix={"day"}
+        />
+        <ProgressBar
+          title={"💻 End of this page"}
+          time={time}
+          getPercentage={(time: Date) => (scrollHeight / windowHeight) * 100}
+          getTimeLeft={(time: Date) => Math.round(windowHeight - scrollHeight)}
+          singularSuffix={"px to go"}
+          allSingular
+          noDelay
         />
       </div>
     </div>

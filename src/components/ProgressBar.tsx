@@ -7,6 +7,7 @@ type props = {
   getTimeLeft: (time: Date) => number;
   singularSuffix: String;
   allSingular?: Boolean;
+  noDelay?: Boolean;
 };
 
 const ProgressBar = ({
@@ -16,6 +17,7 @@ const ProgressBar = ({
   getTimeLeft,
   singularSuffix,
   allSingular,
+  noDelay,
 }: props) => {
   const getSuffix = () => {
     if (!!allSingular) {
@@ -34,7 +36,7 @@ const ProgressBar = ({
       </div>
       <div className="progress-outer">
         <div
-          className="progress-inner"
+          className={`progress-inner ${!!noDelay ? "noDelay" : ""}`}
           style={{ width: `${getPercentage(time)}%` }}
         ></div>
       </div>
